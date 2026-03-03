@@ -1,8 +1,0 @@
-# this file exists purely for editing reasons. ignore.
-
---class-path .
-
---macro me.internal.macro.Metadata.Add()
-
---dce no
---hl code.hl

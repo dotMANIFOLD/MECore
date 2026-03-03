@@ -1,27 +1,24 @@
-[submodule "vendor/hashlink"]
-	path = core/vendor/hashlink
-	url = https://github.com/HaxeFoundation/hashlink.git
 [submodule "vendor/spdlog"]
-	path = core/vendor/spdlog
+	path = vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
 [submodule "core/vendor/JoltPhysics"]
-	path = core/vendor/JoltPhysics
+	path = vendor/JoltPhysics
 	url = https://github.com/jrouwe/JoltPhysics.git
 [submodule "core/vendor/SDL3"]
-	path = core/vendor/SDL3
+	path = vendor/SDL3
 	url = https://github.com/libsdl-org/SDL.git
 [submodule "core/vendor/nvrhi"]
-	path = core/vendor/nvrhi
+	path = vendor/nvrhi
 	url = https://github.com/NVIDIA-RTX/NVRHI.git
 [submodule "core/vendor/ozz-animation"]
-	path = core/vendor/ozz-animation
+	path = vendor/ozz-animation
 	url = https://github.com/guillaumeblanc/ozz-animation.git
-[submodule "core/vendor/taskflow"]
-	path = core/vendor/taskflow
-	url = https://github.com/taskflow/taskflow.git
-[submodule "core/vendor/stduuid"]
-	path = core/vendor/stduuid
-	url = https://github.com/mariusbancila/stduuid.git
-[submodule "core/vendor/cereal"]
-	path = core/vendor/cereal
-	url = https://github.com/USCiLab/cereal.git
+[submodule "core/vendor/angelscript"]
+	path = vendor/angelscript
+	url = https://github.com/anjo76/angelscript.git
+[submodule "vendor/flecs"]
+	path = vendor/flecs
+	url = https://github.com/SanderMertens/flecs.git
+[submodule "vendor/json"]
+	path = vendor/json
+	url = https://github.com/nlohmann/json.git
