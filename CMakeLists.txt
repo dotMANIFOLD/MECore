@@ -12,10 +12,10 @@ find_package(Boost REQUIRED)
 
 # VENDORED DEPENDENCIES
 add_subdirectory(vendor/SDL3 EXCLUDE_FROM_ALL)
-add_subdirectory(vendor/taskflow EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/ozz-animation EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/JoltPhysics/Build EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/nvrhi EXCLUDE_FROM_ALL)
+add_subdirectory(vendor/DiligentEngine EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/spdlog EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/angelscript/sdk/angelscript/projects/cmake EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/flecs EXCLUDE_FROM_ALL)
@@ -33,6 +33,19 @@ add_library(MECore STATIC ${SOURCES})
 target_include_directories(MECore PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(MECore PRIVATE ${Boost_INCLUDE_DIRS})
 
-target_link_libraries(MECore PUBLIC Threads::Threads Vulkan::Vulkan SDL3::SDL3 nvrhi flecs::flecs_static Jolt spdlog::spdlog angelscript asAddons nlohmann_json::nlohmann_json)
+target_link_libraries(MECore PUBLIC
+        Threads::Threads
+        Vulkan::Vulkan
+        SDL3::SDL3
+        Diligent-Common
+        Diligent-GraphicsTools
+        Diligent-GraphicsEngineVk-static
+        flecs::flecs_static
+        Jolt
+        spdlog::spdlog
+        angelscript
+        asAddons
+        nlohmann_json::nlohmann_json
+)
 
 add_library(ME::Core ALIAS MECore)

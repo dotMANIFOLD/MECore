@@ -5,7 +5,11 @@
 #pragma once
 
 #include <memory>
-#include <nvrhi/nvrhi.h>
+#include <Buffer.h>
+#include <DeviceContext.h>
+#include <unordered_map>
+
+using namespace Diligent;
 
 namespace ME {
     class Shader;
@@ -14,13 +18,14 @@ namespace ME {
     class PropertyHelper {
         private:
         bool blockDirty;
-        std::unique_ptr<char> block;
-        nvrhi::BufferHandle blockBuffer;
+        std::unique_ptr<char> block = nullptr;
+        std::shared_ptr<IBuffer> blockBuffer = nullptr;
         unsigned int blockSize;
         
         bool bindingsDirty;
-        std::vector<nvrhi::BindingSetItem> bindings;
-        nvrhi::BindingSetHandle bindingSet;
+        // std::vector<nvrhi::BindingSetItem> bindings;
+        // nvrhi::BindingSetHandle bindingSet;
+        // TODO: bring back bindings
         
         public:
         PropertyHelper() = default;
@@ -28,8 +33,8 @@ namespace ME {
         bool IsBlockDirty() const { return blockDirty; }
         bool IsBindingsDirty() const { return bindingsDirty; }
         
-        nvrhi::BufferHandle GetBlockBuffer() const { return blockBuffer; }
-        nvrhi::BindingSetHandle GetBindingSet() const { return bindingSet; }
+        std::shared_ptr<IBuffer> GetBlockBuffer() const { return blockBuffer; }
+        // nvrhi::BindingSetHandle GetBindingSet() const { return bindingSet; }
         
         void InitBlock(const PropertySet& set);
         void InitBindings(const PropertySet& set);
@@ -37,8 +42,8 @@ namespace ME {
         void SetBlockProperty(const PropertySet& set, const std::string& name, const void* data, int dataSize);
         // void SetBinding(const PropertySet& set, const std::string& name, nvrhi::ResourceHandle resource);
         
-        void UpdateBlock(nvrhi::ICommandList* cmd);
-        void UpdateBindingSet(nvrhi::BindingLayoutHandle layout);
+        void UpdateBlock(IDeviceContext* ctx);
+        // void UpdateBindingSet(nvrhi::BindingLayoutHandle layout);
         
         void CopyTo(PropertyHelper& other);
     };

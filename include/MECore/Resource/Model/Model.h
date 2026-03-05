@@ -5,7 +5,6 @@
 #pragma once
 
 #include <memory>
-#include <nvrhi/nvrhi.h>
 
 #include "../Mesh/Mesh.h"
 #include "../Material/Material.h"
@@ -21,8 +20,5 @@ namespace ME {
         std::vector<std::shared_ptr<Material>> materials;
 
         Model() = default;
-
-        void UpdateBuffers();
-        void UploadBuffers(nvrhi::ICommandList* cmd);
     };
 }

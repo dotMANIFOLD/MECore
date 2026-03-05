@@ -8,21 +8,6 @@
 
 #include "Service/IServiceProvider.h"
 
-// Platform defines derived from WickedEngine. Thank you turanszkij.
-// WickedEngine is licensed under the MIT license.
-
-#ifdef _WIN32
-    #if WINAPI_FAMILY == WINAPI_FAMILY_GAMES
-        #define PLATFORM_XBOX
-    #else
-        #define PLATFORM_WINDOWS
-    #endif
-#elif defined(__SCE__)
-    #define PLATFORM_PS5
-#else
-    #define PLATFORM_LINUX
-#endif
-
 namespace ME {
     struct MEAppData {
         std::string name;

@@ -9,10 +9,10 @@
 namespace ME {
     class IndexMeshStream final : public MeshStreamTemplate<uint32_t> {
         public:
-        explicit IndexMeshStream() : MeshStreamTemplate("INDEX") { }
-        IndexMeshStream(const std::string& name) : MeshStreamTemplate(name, "INDEX") { }
+        IndexMeshStream() : MeshStreamTemplate("INDEX") { }
+        explicit IndexMeshStream(const std::string& name) : MeshStreamTemplate(name, "INDEX") { }
 
         MeshStreamType GetStreamType() const override { return MeshStreamType::Index; }
-        nvrhi::Format GetFormat() const override { return nvrhi::Format::R32_UINT; }
+        VALUE_TYPE GetFormat() const override { return VT_UINT32; }
     };
 }

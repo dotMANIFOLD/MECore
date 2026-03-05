@@ -4,11 +4,12 @@
 
 #pragma once
 
-#include <functional>
 #include <SDL3/SDL.h>
-#include <nvrhi/nvrhi.h>
 
-#include "IViewport.h"
+#include "IRenderTarget.h"
+#include "MECore/Common/IDestructible.h"
+
+using namespace Diligent;
 
 namespace ME {
     struct WindowParameters {
@@ -20,37 +21,43 @@ namespace ME {
         bool transparent;
     };
 
-    class Window : public IViewport {
+    class Window : public IRenderTarget, public IDestructible {
+        private:
+        std::string title;
+        int width, height;
+        bool fullscreen;
+        bool borderless;
+        bool resizeable;
+        bool transparent;
+        
+        SDL_Window* window;
+        ISwapChain* swapChain;
+        
         public:
-        std::function<void()> beforeRefresh;
-        std::function<void()> afterRefresh;
+        Window(const WindowParameters& params, SDL_Window* window, ISwapChain* swapChain);
+        
+        const std::string& GetTitle() const { return title; }
+        void GetSize(int* width, int* height) const override {
+            *width = this->width;
+            *height = this->height;
+        }
+        bool GetFullscreen() const { return fullscreen; }
+        bool GetBorderless() const { return borderless; }
+        bool GetResizeable() const { return resizeable; }
+        bool GetTransparent() const { return transparent; }
+        
+        SDL_Window* GetWindow() const { return window; }
+        ISwapChain* GetSwapChain() const override { return swapChain; }
+        bool CanRender() const override { return true; }
+        bool IsValid() const override { return window && swapChain; }
+        
+        void SetTitle(const std::string& name);
+        void SetSize(int width, int height);
+        void SetFullscreen(bool fullscreen);
+        void SetBorderless(bool borderless);
+        void SetResizeable(bool resizeable);
 
-        virtual bool IsValid() const = 0;
-
-        virtual SDL_Window* GetWindow() const = 0;
-        virtual const std::string& GetTitle() const = 0;
-        virtual bool GetFullscreen() const = 0;
-        virtual bool GetBorderless() const = 0;
-        virtual bool GetResizeable() const = 0;
-        virtual bool GetTransparent() const = 0;
-
-        virtual uint32_t GetSwapchainCount() = 0;
-        virtual uint32_t GetCurrentSwapchainIndex() = 0;
-        virtual nvrhi::ITexture* GetSwapchainTexture(uint32_t index) = 0;
-        virtual nvrhi::ITexture* GetCurrentSwapchainTexture() = 0;
-
-        virtual void SetTitle(const std::string& name) = 0;
-        virtual void SetSize(int width, int height) = 0;
-        virtual void SetFullscreen(bool fullscreen) = 0;
-        virtual void SetBorderless(bool borderless) = 0;
-        virtual void SetResizeable(bool resizeable) = 0;
-
-        virtual bool CreateSwapchain() = 0;
-        virtual void DestroySwapchain() = 0;
-        virtual void RefreshSwapchain() = 0;
-        virtual void Destroy() = 0;
-
-        virtual bool BeginFrame() = 0;
-        virtual bool Present() = 0;
+        void Present();
+        void Destroy() override;
     };
 }

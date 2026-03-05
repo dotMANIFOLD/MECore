@@ -4,29 +4,22 @@
 
 #pragma once
 
-#include <unordered_set>
-#include <SDL3/SDL.h>
-#include <nvrhi/nvrhi.h>
+#include <memory>
+#include <RenderDevice.h>
 
+#include "MECore/Service/IService.h"
 #include "Window.h"
 
 namespace ME {
-    struct DefaultMessageCallback : public nvrhi::IMessageCallback {
-        static DefaultMessageCallback& GetInstance();
-
-        void message(nvrhi::MessageSeverity severity, const char* messageText) override;
-    };
-
-    class IRenderInterface {
+    class IRenderInterface : public IService {
         public:
-        virtual ~IRenderInterface() = default;
+        virtual Diligent::IRenderDevice* GetDevice() const = 0;
+        virtual Diligent::IDeviceContext* GetImmediateContext() const = 0;
+        virtual std::shared_ptr<Window> GetMainWindow() const = 0;
 
-        virtual nvrhi::IDevice* GetDevice() = 0;
+        virtual bool Initialize() = 0;
 
-        virtual bool CreateInstance() = 0;
-        virtual bool CreateDevice() = 0;
-        virtual void DestroyDevice() = 0;
-
-        virtual Window* CreateWindow(WindowParameters* params) = 0;
+        virtual std::shared_ptr<Window> CreateWindow(const WindowParameters& params) = 0;
+        virtual void SetMainWindow(const std::shared_ptr<Window> window) = 0;
     };
 }

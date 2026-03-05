@@ -6,22 +6,28 @@
 
 #include <vector>
 #include <memory>
-#include <nvrhi/nvrhi.h>
+#include <Buffer.h>
 
 #include "IMeshStream.h"
 #include "MECore/Math/Types.h"
 #include "MECore/Resource/Resource.h"
 
+using namespace Diligent;
+
 namespace ME {
     /// A single mesh.
     class Mesh : public Resource, public std::enable_shared_from_this<Mesh> {
         private:
+        enum class ReallocResult {
+            Nothing, Success, Error
+        };
+        
         std::vector<std::unique_ptr<IMeshStream>> streams;
         
         bool wantsUpload;
-        std::unordered_map<IMeshStream*, nvrhi::BufferHandle> gpuBuffers;
+        std::unordered_map<IMeshStream*, std::shared_ptr<IBuffer>> gpuBuffers;
 
-        bool ReallocateBuffer(nvrhi::BufferHandle& buffer, IMeshStream* stream);
+        ReallocResult ReallocateBuffer(std::shared_ptr<IBuffer>& buffer, IMeshStream* stream);
     
         public:
         using Pointer = std::shared_ptr<Mesh>;
@@ -36,7 +42,7 @@ namespace ME {
             }
             return nullptr;
         }
-        nvrhi::BufferHandle GetBufferBySemantic(const std::string& semantic) const {
+        std::shared_ptr<IBuffer> GetBufferBySemantic(const std::string& semantic) const {
             for (const auto& stream : streams) {
                 if (stream->GetSemantic() == semantic) return gpuBuffers.at(stream.get());
             }
@@ -47,14 +53,14 @@ namespace ME {
         IMeshStream* GetPositionStream() const {
             return GetStreamBySemantic("POSITION");
         }
-        nvrhi::BufferHandle GetPositionBuffer() const {
+        std::shared_ptr<IBuffer> GetPositionBuffer() const {
             return GetBufferBySemantic("POSITION");
         }
 
         IMeshStream* GetIndexStream() const {
             return GetStreamBySemantic("INDEX");
         }
-        nvrhi::BufferHandle GetIndexBuffer() const {
+        std::shared_ptr<IBuffer> GetIndexBuffer() const {
             return GetBufferBySemantic("INDEX");
         }
 
@@ -72,6 +78,6 @@ namespace ME {
         bool WantsUpload() const { return wantsUpload; }
         
         /// Function to upload all mesh streams to the GPU.
-        void DoUpload(nvrhi::ICommandList* cmd);
+        void DoUpload(IDeviceContext* ctx);
     };
 }

@@ -5,11 +5,17 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include <unordered_map>
-#include <nvrhi/nvrhi.h>
+#include <Shader.h>
+#include <InputLayout.h>
+#include <RefCntAutoPtr.hpp>
+#include <PipelineState.h>
 
 #include "MECore/Resource/Resource.h"
 #include "PropertyHelper.h"
+
+using namespace Diligent;
 
 namespace ME {
     struct BlockProperty {
@@ -19,7 +25,7 @@ namespace ME {
     
     struct BindingProperty {
         int index;
-        nvrhi::ResourceType type;
+        SHADER_RESOURCE_TYPE type;
         uint32_t slot;
     };
 
@@ -30,15 +36,14 @@ namespace ME {
     };
     
     struct ShaderResources {
-        nvrhi::ShaderHandle shader;
-        nvrhi::InputLayoutHandle inputLayout;
-        nvrhi::BindingLayoutHandle instBindingLayout;
-        nvrhi::BindingLayoutHandle globalBindingLayout;
+        RefCntAutoPtr<IShader> shader;
+        std::vector<LayoutElement> inputLayout;
+        std::vector<ShaderResourceVariableDesc> bindings;
     };
     
     class Shader : public Resource, std::enable_shared_from_this<Shader> {
         private:
-        nvrhi::ShaderType type;
+        SHADER_TYPE type;
         ShaderResources resources;
         PropertySet properties;
         PropertySet globalProperties;
@@ -49,7 +54,7 @@ namespace ME {
         using Pointer = std::shared_ptr<Shader>;
         
         Shader() = default;
-        Shader(const nvrhi::ShaderType type, const ShaderResources& resources, const PropertySet& properties, const PropertySet& globalProperties) {
+        Shader(const SHADER_TYPE type, const ShaderResources& resources, const PropertySet& properties, const PropertySet& globalProperties) {
             this->type = type;
             this->resources = resources;
             this->properties = properties;
@@ -59,17 +64,17 @@ namespace ME {
             globalPropertiesHelper.InitBindings(globalProperties);
         }
 
-        nvrhi::ShaderType GetType() const { return type; }
+        SHADER_TYPE GetType() const { return type; }
         const ShaderResources& GetResources() const { return resources; }
         const PropertySet& GetProperties() const { return properties; }
         const PropertySet& GetGlobalProperties() const { return globalProperties; } 
         
-        nvrhi::BufferHandle GetGlobalBlockBuffer() const { return globalPropertiesHelper.GetBlockBuffer(); }
-        nvrhi::BindingSetHandle GetGlobalBindingSet() const { return globalPropertiesHelper.GetBindingSet(); }
+        std::shared_ptr<IBuffer> GetGlobalBlockBuffer() const { return globalPropertiesHelper.GetBlockBuffer(); }
+        // nvrhi::BindingSetHandle GetGlobalBindingSet() const { return globalPropertiesHelper.GetBindingSet(); }
         
         void SetGlobalBlockProperty(const std::string& name, const void* data, int dataSize);
         
-        void UpdateBlockBuffer(nvrhi::ICommandList* cmd) { globalPropertiesHelper.UpdateBlock(cmd); }
-        void UpdateBindingSet() { globalPropertiesHelper.UpdateBindingSet(resources.globalBindingLayout); }
+        void UpdateBlockBuffer(IDeviceContext* ctx) { globalPropertiesHelper.UpdateBlock(ctx); }
+        // void UpdateBindingSet() { globalPropertiesHelper.UpdateBindingSet(resources.globalBindingLayout); }
     };
 }

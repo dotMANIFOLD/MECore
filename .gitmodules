@@ -22,3 +22,6 @@
 [submodule "vendor/json"]
 	path = vendor/json
 	url = https://github.com/nlohmann/json.git
+[submodule "vendor/DiligentEngine"]
+	path = vendor/DiligentEngine
+	url = https://github.com/DiligentGraphics/DiligentEngine.git
