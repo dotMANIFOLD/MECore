@@ -2,17 +2,28 @@
 // Created by dotryen on 3/3/26.
 //
 
+
 #include "MECore/Render/Vulkan/VulkanInterface.h"
 
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks-inl.h"
 #include "EngineFactoryVk.h"
 #include "GraphicsTypes.h"
 #include "MECore/Render/Window.h"
-#include "spdlog/spdlog.h"
-
-using namespace Diligent;
 
 namespace ME {
+    void DiligentDebugCallback(DEBUG_MESSAGE_SEVERITY severity, const char* message, const char* function, const char* file, int line) {
+        switch (severity) {
+            case DEBUG_MESSAGE_SEVERITY_INFO: diligentLogger->info(message); break;
+            case DEBUG_MESSAGE_SEVERITY_WARNING: diligentLogger->warn(message); break;
+            case DEBUG_MESSAGE_SEVERITY_ERROR: diligentLogger->error(message); break;
+            case DEBUG_MESSAGE_SEVERITY_FATAL_ERROR: diligentLogger->critical(message); break;
+        }
+    }
+    
     bool VulkanInterface::Initialize() {
+        diligentLogger = spdlog::stdout_color_mt("Diligent");
+        
         EngineVkCreateInfo engineCreateInfo;
         
         // DEVICE FEATURES
@@ -22,6 +33,7 @@ namespace ME {
         engineCreateInfo.FeaturesVk.DynamicRendering = DEVICE_FEATURE_STATE_OPTIONAL;
         
         auto* vkFactory = GetEngineFactoryVk();
+        vkFactory->SetMessageCallback(DiligentDebugCallback);
         vkFactory->CreateDeviceAndContextsVk(engineCreateInfo, &device, &immediateContext);
         return true;
     }

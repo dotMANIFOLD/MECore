@@ -7,9 +7,6 @@
 [submodule "core/vendor/SDL3"]
 	path = vendor/SDL3
 	url = https://github.com/libsdl-org/SDL.git
-[submodule "core/vendor/nvrhi"]
-	path = vendor/nvrhi
-	url = https://github.com/NVIDIA-RTX/NVRHI.git
 [submodule "core/vendor/ozz-animation"]
 	path = vendor/ozz-animation
 	url = https://github.com/guillaumeblanc/ozz-animation.git
@@ -25,3 +22,13 @@
 [submodule "vendor/DiligentEngine"]
 	path = vendor/DiligentEngine
 	url = https://github.com/DiligentGraphics/DiligentEngine.git
+[submodule "vendor/imgui"]
+	path = vendor/imgui
+	url = git@github.com:ocornut/imgui.git
+	branch = docking
+[submodule "vendor/flatbuffers"]
+	path = vendor/flatbuffers
+	url = https://github.com/google/flatbuffers.git
+[submodule "vendor/daslang"]
+	path = vendor/daslang
+	url = https://github.com/GaijinEntertainment/daScript.git

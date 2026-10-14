@@ -7,7 +7,9 @@
 #include "MECore/Math/Transform.h"
 
 namespace ME {
-    struct LocalTransform {
-        Transform transform;
-    };
+    using LocalTransform = Transform;
+    using WorldTransform = Transform;
+    // struct LocalTransform {
+    //     Transform transform;
+    // };
 }

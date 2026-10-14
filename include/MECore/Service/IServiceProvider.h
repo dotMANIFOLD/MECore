@@ -25,7 +25,5 @@ namespace ME {
         
         virtual IFileSystem* GetFileSystem() = 0;
         virtual ILogService* GetLogService() = 0;
-        
-        virtual void Initialize() = 0;
     };
 }

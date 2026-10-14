@@ -86,7 +86,7 @@ namespace ME {
         return std::filesystem::exists(path) && std::filesystem::is_regular_file(path);
     }
 
-    bool NativeFileSystem::FolderExists(const std::filesystem::path& path) {
+    bool NativeFileSystem::DirectoryExists(const std::filesystem::path& path) {
         return std::filesystem::exists(path) && std::filesystem::is_directory(path);
     }
 
@@ -147,6 +147,16 @@ namespace ME {
         return true;
     }
 
+    int NativeFileSystem::CreateDirectory(const std::filesystem::path& path) {
+        auto result = std::filesystem::create_directory(path);
+        return result ? Status::Ok : Status::Failed;
+    }
+
+    int NativeFileSystem::CreateDirectories(const std::filesystem::path& path) {
+        auto result = std::filesystem::create_directories(path);
+        return result ? Status::Ok : Status::Failed;
+    }
+
     int NativeFileSystem::EnumerateFiles(const std::filesystem::path& path, const std::vector<std::string>& extensions, EnumerateCallback callback, bool allowDuplicates) {
         (void)allowDuplicates;
 
@@ -167,7 +177,7 @@ namespace ME {
         return numEntries;
     }
 
-    int NativeFileSystem::EnumerateFolders(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates) {
+    int NativeFileSystem::EnumerateDirectories(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates) {
         (void)allowDuplicates;
 
         std::string pattern = (path / "*").generic_string();

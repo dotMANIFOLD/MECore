@@ -16,35 +16,31 @@ namespace ME {
         std::string title;
         int width;
         int height;
+        bool fullscreen;
         bool borderless;
         bool resizeable;
         bool transparent;
     };
 
     class Window : public IRenderTarget, public IDestructible {
-        private:
-        std::string title;
-        int width, height;
-        bool fullscreen;
-        bool borderless;
-        bool resizeable;
-        bool transparent;
-        
+        protected:
+        WindowParameters details;
         SDL_Window* window;
         ISwapChain* swapChain;
         
         public:
         Window(const WindowParameters& params, SDL_Window* window, ISwapChain* swapChain);
+        ~Window() override;
         
-        const std::string& GetTitle() const { return title; }
+        const std::string& GetTitle() const { return details.title; }
         void GetSize(int* width, int* height) const override {
-            *width = this->width;
-            *height = this->height;
+            *width = this->details.width;
+            *height = this->details.height;
         }
-        bool GetFullscreen() const { return fullscreen; }
-        bool GetBorderless() const { return borderless; }
-        bool GetResizeable() const { return resizeable; }
-        bool GetTransparent() const { return transparent; }
+        bool GetFullscreen() const { return details.fullscreen; }
+        bool GetBorderless() const { return details.borderless; }
+        bool GetResizeable() const { return details.resizeable; }
+        bool GetTransparent() const { return details.transparent; }
         
         SDL_Window* GetWindow() const { return window; }
         ISwapChain* GetSwapChain() const override { return swapChain; }

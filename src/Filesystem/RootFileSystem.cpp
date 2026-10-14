@@ -38,12 +38,12 @@ namespace ME {
         return false;
     }
 
-    bool RootFileSystem::FolderExists(const std::filesystem::path& path) {
+    bool RootFileSystem::DirectoryExists(const std::filesystem::path& path) {
         std::filesystem::path relativePath;
         IFileSystem* fs = nullptr;
 
         if (FindMountPoint(path, &relativePath, &fs)) {
-            return fs->FolderExists(relativePath);
+            return fs->DirectoryExists(relativePath);
         }
         return false;
     }
@@ -68,6 +68,26 @@ namespace ME {
         return false;
     }
 
+    int RootFileSystem::CreateDirectory(const std::filesystem::path& path) {
+        std::filesystem::path relativePath;
+        IFileSystem* fs = nullptr;
+        
+        if (FindMountPoint(path, &relativePath, &fs)) {
+            return fs->CreateDirectory(relativePath);
+        }
+        return Status::NotFound;
+    }
+
+    int RootFileSystem::CreateDirectories(const std::filesystem::path& path) {
+        std::filesystem::path relativePath;
+        IFileSystem* fs = nullptr;
+        
+        if (FindMountPoint(path, &relativePath, &fs)) {
+            return fs->CreateDirectories(relativePath);
+        }
+        return Status::NotFound;
+    }
+
     int RootFileSystem::EnumerateFiles(const std::filesystem::path& path, const std::vector<std::string>& extensions, EnumerateCallback callback, bool allowDuplicates) {
         std::filesystem::path relativePath;
         IFileSystem* fs = nullptr;
@@ -78,12 +98,12 @@ namespace ME {
         return Status::NotFound;
     }
 
-    int RootFileSystem::EnumerateFolders(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates) {
+    int RootFileSystem::EnumerateDirectories(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates) {
         std::filesystem::path relativePath;
         IFileSystem* fs = nullptr;
 
         if (FindMountPoint(path, &relativePath, &fs)) {
-            return fs->EnumerateFolders(relativePath, callback, allowDuplicates);
+            return fs->EnumerateDirectories(relativePath, callback, allowDuplicates);
         }
         return false;
     }

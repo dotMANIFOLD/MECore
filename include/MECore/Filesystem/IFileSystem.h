@@ -39,14 +39,19 @@ namespace ME {
     class IFileSystem : IService {
         public:
         virtual bool FileExists(const std::filesystem::path& path) = 0;
-        virtual bool FolderExists(const std::filesystem::path& path) = 0;
+        virtual bool DirectoryExists(const std::filesystem::path& path) = 0;
 
         virtual std::shared_ptr<IFile> ReadFile(const std::filesystem::path& path) = 0;
         virtual bool WriteFile(const std::filesystem::path& path, const void* data, size_t size) = 0;
 
+        /// Creates a directory. Parent must exist.
+        virtual int CreateDirectory(const std::filesystem::path& path) = 0;
+        /// Creates all directories for this path.
+        virtual int CreateDirectories(const std::filesystem::path& path) = 0;
+        
         virtual int EnumerateFiles(const std::filesystem::path& path, const std::vector<std::string>& extensions, EnumerateCallback callback, bool allowDuplicates = false) = 0;
-        virtual int EnumerateFolders(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates = false) = 0;
-
+        virtual int EnumerateDirectories(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates = false) = 0;
+        
 		virtual std::filesystem::path GetRealPath(const std::filesystem::path& path) = 0;
     };
 }

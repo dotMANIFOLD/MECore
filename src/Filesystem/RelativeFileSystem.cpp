@@ -14,8 +14,8 @@ namespace ME {
         return realFs->FileExists(basePath / path.relative_path());
     }
 
-    bool RelativeFileSystem::FolderExists(const std::filesystem::path& path) {
-        return realFs->FolderExists(basePath / path.relative_path());
+    bool RelativeFileSystem::DirectoryExists(const std::filesystem::path& path) {
+        return realFs->DirectoryExists(basePath / path.relative_path());
     }
 
     std::shared_ptr<IFile> RelativeFileSystem::ReadFile(const std::filesystem::path& path) {
@@ -26,12 +26,20 @@ namespace ME {
         return realFs->WriteFile(basePath / path.relative_path(), data, size);
     }
 
+    int RelativeFileSystem::CreateDirectory(const std::filesystem::path& path) {
+        return realFs->CreateDirectory(basePath / path.relative_path());
+    }
+
+    int RelativeFileSystem::CreateDirectories(const std::filesystem::path& path) {
+        return realFs->CreateDirectories(basePath / path.relative_path());
+    }
+
     int RelativeFileSystem::EnumerateFiles(const std::filesystem::path& path, const std::vector<std::string>& extensions, EnumerateCallback callback, bool allowDuplicates) {
         return realFs->EnumerateFiles(basePath / path.relative_path(), extensions, callback, allowDuplicates);
     }
 
-    int RelativeFileSystem::EnumerateFolders(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates) {
-        return realFs->EnumerateFolders(basePath / path.relative_path(), callback, allowDuplicates);
+    int RelativeFileSystem::EnumerateDirectories(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates) {
+        return realFs->EnumerateDirectories(basePath / path.relative_path(), callback, allowDuplicates);
     }
 
     std::filesystem::path RelativeFileSystem::GetRealPath(const std::filesystem::path& path) {

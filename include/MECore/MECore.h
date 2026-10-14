@@ -39,8 +39,6 @@ namespace ME {
         [[nodiscard]] const MEAppData& GetAppData() const { return appData; }
         [[nodiscard]] IServiceProvider* GetServiceProvider() const { return serviceProvider; }
         
-        void Initialize() const { serviceProvider->Initialize(); }
-        
         void MakeGlobal() { globalInstance = this; }
     };
 }

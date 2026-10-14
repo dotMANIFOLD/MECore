@@ -6,15 +6,36 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
+# SYSTEM PACKAGES
+# maybe we should provide boost as well?
 find_package(Threads REQUIRED)
 find_package(Vulkan REQUIRED)
 find_package(Boost REQUIRED)
+
+# IMGUI
+set(IMGUI_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imconfig.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imgui_draw.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imgui_tables.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imgui_widgets.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imgui_internal.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imgui.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imgui.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imstb_rectpack.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imstb_textedit.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imstb_truetype.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/imgui_demo.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/misc/cpp/imgui_stdlib.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/misc/cpp/imgui_stdlib.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_sdl3.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_sdl3.h)
+add_library(imgui STATIC ${IMGUI_SOURCES})
+target_include_directories(imgui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui)
 
 # VENDORED DEPENDENCIES
 add_subdirectory(vendor/SDL3 EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/ozz-animation EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/JoltPhysics/Build EXCLUDE_FROM_ALL)
-add_subdirectory(vendor/nvrhi EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/DiligentEngine EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/spdlog EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/angelscript/sdk/angelscript/projects/cmake EXCLUDE_FROM_ALL)

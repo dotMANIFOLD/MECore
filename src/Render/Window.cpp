@@ -6,36 +6,36 @@
 
 namespace ME {
     Window::Window(const WindowParameters& params, SDL_Window* window, ISwapChain* swapChain) {
-        title = params.title;
-        width = params.width;
-        height = params.height;
-        borderless = params.borderless;
-        resizeable = params.resizeable;
-        transparent = params.transparent;
-        
+        this->details = params;
         this->window = window;
         this->swapChain = swapChain;
     }
 
+    Window::~Window() {
+        if (Window::IsValid()) {
+            Destroy();
+        }
+    }
+
     void Window::SetTitle(const std::string& name) {
-        this->title = name;
+        this->details.title = name;
         SDL_SetWindowTitle(window, name.c_str());
     }
 
     void Window::SetSize(int width, int height) {
-        this->width = width;
-        this->height = height;
+        this->details.width = width;
+        this->details.height = height;
         SDL_SetWindowSize(window, width, height);
         swapChain->Resize(width, height);
     }
 
     void Window::SetFullscreen(bool fullscreen) {
-        this->fullscreen = fullscreen;
+        this->details.fullscreen = fullscreen;
         SDL_SetWindowFullscreen(window, fullscreen);
     }
 
     void Window::SetBorderless(bool borderless) {
-        this->borderless = borderless;
+        this->details.borderless = borderless;
         SDL_SetWindowBordered(window, borderless);
     }
 
@@ -50,6 +50,9 @@ namespace ME {
     }
 
     void Window::Destroy() {
-        // TODO: do something i forgot
+        swapChain->Release();
+        SDL_DestroyWindow(window);
+        swapChain = nullptr;
+        window = nullptr;
     }
 }

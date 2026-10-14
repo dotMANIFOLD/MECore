@@ -10,10 +10,14 @@
 
 #include "MECore/Render/IRenderInterface.h"
 #include "MECore/Render/Window.h"
+#include "spdlog/spdlog.h"
 
 using namespace Diligent;
 
 namespace ME {
+    inline static std::shared_ptr<spdlog::logger> diligentLogger;
+    void DiligentDebugCallback(DEBUG_MESSAGE_SEVERITY severity, const char* message, const char* function, const char* file, int line);
+    
     class VulkanInterface : public IRenderInterface {
         private:
         IRenderDevice* device;

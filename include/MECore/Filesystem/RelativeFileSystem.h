@@ -18,13 +18,16 @@ namespace ME {
         const std::filesystem::path& GetBasePath() const { return basePath; }
 
         bool FileExists(const std::filesystem::path& path) override;
-        bool FolderExists(const std::filesystem::path& path) override;
+        bool DirectoryExists(const std::filesystem::path& path) override;
 
         std::shared_ptr<IFile> ReadFile(const std::filesystem::path& path) override;
         bool WriteFile(const std::filesystem::path& path, const void* data, size_t size) override;
 
+        int CreateDirectory(const std::filesystem::path& path) override;
+        int CreateDirectories(const std::filesystem::path& path) override;
+        
         int EnumerateFiles(const std::filesystem::path& path, const std::vector<std::string>& extensions, EnumerateCallback callback, bool allowDuplicates) override;
-        int EnumerateFolders(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates) override;
+        int EnumerateDirectories(const std::filesystem::path& path, EnumerateCallback callback, bool allowDuplicates) override;
 
         std::filesystem::path GetRealPath(const std::filesystem::path& path) override;
     };
