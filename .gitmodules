@@ -10,9 +10,6 @@
 [submodule "core/vendor/ozz-animation"]
 	path = vendor/ozz-animation
 	url = https://github.com/guillaumeblanc/ozz-animation.git
-[submodule "core/vendor/angelscript"]
-	path = vendor/angelscript
-	url = https://github.com/anjo76/angelscript.git
 [submodule "vendor/flecs"]
 	path = vendor/flecs
 	url = https://github.com/SanderMertens/flecs.git

@@ -14,15 +14,6 @@ namespace ME {
         spdlog::set_default_logger(mainLogger);
     }
 
-    void DefaultLogService::RegisterScript(asIScriptEngine* engine) {
-        auto result = engine->RegisterGlobalFunction("void Log_Info(const string&in)", asMETHOD(DefaultLogService, LogInfo), asCALL_THISCALL_ASGLOBAL, this);
-        assert(result);
-        result = engine->RegisterGlobalFunction("void Log_Warning(const string&in)", asMETHOD(DefaultLogService, LogWarning), asCALL_THISCALL_ASGLOBAL, this);
-        assert(result);
-        result = engine->RegisterGlobalFunction("void Log_Error(const string&in)", asMETHOD(DefaultLogService, LogError), asCALL_THISCALL_ASGLOBAL, this);
-        assert(result);
-    }
-
     void DefaultLogService::LogInfo(const std::string& message) {
         gameLogger->info(message);
     }
