@@ -3,6 +3,9 @@
 //
 
 #pragma once
+
+#include <GraphicsAccessories.hpp>
+
 #include "IMeshStream.h"
 
 namespace ME {
@@ -37,7 +40,7 @@ namespace ME {
 
         const void* GetData() const override { return data; }
         size_t GetSize() const override { return size; }
-        size_t GetStride() const override { return 1; }
+        size_t GetStride() const override { return GetValueSize(format); }
 
         bool IsDirty() const override { return isDirty; }
         void ClearDirty() override { isDirty = false; }

@@ -40,6 +40,7 @@ add_subdirectory(vendor/DiligentEngine EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/spdlog EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/flecs EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/json EXCLUDE_FROM_ALL)
+add_subdirectory(vendor/daslang EXCLUDE_FROM_ALL)
 
 # ENGINE LIBRARY
 file(GLOB_RECURSE SOURCES src/*.cpp src/*.h)
@@ -53,11 +54,13 @@ target_link_libraries(MECore PUBLIC
         SDL3::SDL3
         Diligent-Common
         Diligent-GraphicsTools
+        Diligent-GraphicsAccessories
         Diligent-GraphicsEngineVk-static
         flecs::flecs_static
         Jolt
         spdlog::spdlog
         nlohmann_json::nlohmann_json
+        libDaScript
 )
 
 add_library(ME::Core ALIAS MECore)
