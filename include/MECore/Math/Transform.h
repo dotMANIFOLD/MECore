@@ -13,10 +13,8 @@ namespace ME {
         Vector3 scale;
 
         Transform() = default;
-        Transform(const Vector3& position, const Quaternion& rotation, const Vector3& scale) {
-            this->position = position;
-            this->rotation = rotation;
-            this->scale = scale;
+        Transform(const Vector3& position, const Quaternion& rotation, const Vector3& scale)
+            : position(position), rotation(rotation), scale(scale) {
         }
 
         static constexpr Transform Identity();
