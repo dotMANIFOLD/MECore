@@ -4,6 +4,7 @@
 
 #pragma once
 #include <spdlog/spdlog.h>
+#include <angelscript.h>
 
 #include "ILogService.h"
 
@@ -15,6 +16,8 @@ namespace ME {
         
         public:
         DefaultLogService();
+        
+        void RegisterScript(asIScriptEngine* engine);
         
         void LogInfo(const std::string& message) override;
         void LogWarning(const std::string& message) override;

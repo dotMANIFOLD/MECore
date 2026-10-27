@@ -20,9 +20,16 @@ add_subdirectory(vendor/ozz-animation EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/JoltPhysics/Build EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/DiligentEngine EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/spdlog EXCLUDE_FROM_ALL)
+add_subdirectory(vendor/angelscript/sdk/angelscript/projects/cmake EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/flecs EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/json EXCLUDE_FROM_ALL)
 add_subdirectory(vendor/daslang)
+
+# ANGELSCRIPT ADDONS
+file(GLOB_RECURSE AS_ADDON_SOURCES vendor/angelscript/sdk/add_on/*.cpp vendor/angelscript/sdk/add_on/*.h)
+add_library(asAddons STATIC ${AS_ADDON_SOURCES})
+target_include_directories(asAddons PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/vendor/angelscript/sdk/add_on)
+target_link_libraries(asAddons PUBLIC angelscript)
 
 # ENGINE LIBRARY
 file(GLOB_RECURSE SOURCES src/*.cpp src/*.h)
@@ -41,6 +48,8 @@ target_link_libraries(MECore PUBLIC
         flecs::flecs_static
         Jolt
         spdlog::spdlog
+        angelscript
+        asAddons
         nlohmann_json::nlohmann_json
         libDaScriptDyn
 )
