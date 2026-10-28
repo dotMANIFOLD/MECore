@@ -13,6 +13,7 @@
 #include <boost/uuid/uuid.hpp>
 
 #include "MECore/Math/Types.h"
+#include "MECore/Script/Bindings.h"
 
 namespace ME {
     static void MessageCallback(const asSMessageInfo* msg, void* param) {
@@ -43,41 +44,17 @@ namespace ME {
         RegisterScriptArray(engine, true);
         RegisterScriptDictionary(engine);
         RegisterStdStringUtils(engine);
-        
+
+        RegisterAll(engine);
+
         // UUID
-        engine->RegisterObjectType("Uuid", sizeof(boost::uuids::uuid), asOBJ_VALUE | asOBJ_POD | asGetTypeTraits<boost::uuids::uuid>());
-        engine->SetDefaultNamespace("Uuid");
-        engine->RegisterGlobalFunction("Uuid New()", asFUNCTIONPR([] { return boost::uuids::random_generator()(); }, (), boost::uuids::uuid), asCALL_CDECL);
-        engine->SetDefaultNamespace("");
-        
-        RegisterVector3();
+        // engine->RegisterObjectType("Uuid", sizeof(boost::uuids::uuid), asOBJ_VALUE | asOBJ_POD | asGetTypeTraits<boost::uuids::uuid>());
+        // engine->SetDefaultNamespace("Uuid");
+        // engine->RegisterGlobalFunction("Uuid New()", asFUNCTIONPR([] { return boost::uuids::random_generator()(); }, (), boost::uuids::uuid), asCALL_CDECL);
+        // engine->SetDefaultNamespace("");;
     }
 
     DefaultScriptService::~DefaultScriptService() {
         engine->ShutDownAndRelease();
-    }
-
-    void DefaultScriptService::RegisterVector3() {
-        engine->RegisterObjectType("Vector3", sizeof(Vector3), asOBJ_VALUE | asOBJ_POD | asGetTypeTraits<Vector3>() | asOBJ_APP_CLASS_ALLFLOATS | asOBJ_APP_CLASS_MORE_CONSTRUCTORS);
-        // Cant do this because of W
-        // Jolt vectors are actually arrays under the hood. So there is no field to get the offset of.
-        // engine->RegisterObjectProperty("Vector3", "float x", 0); 
-        // engine->RegisterObjectProperty("Vector3", "float y", 4);
-        // engine->RegisterObjectProperty("Vector3", "float z", 8);
-        
-        engine->RegisterObjectMethod("Vector3", "float get_x() property", asMETHOD(Vector3, GetX), asCALL_THISCALL);
-        engine->RegisterObjectMethod("Vector3", "void set_x(float) property", asMETHOD(Vector3, SetX), asCALL_THISCALL);
-        engine->RegisterObjectMethod("Vector3", "float get_y() property", asMETHOD(Vector3, GetY), asCALL_THISCALL);
-        engine->RegisterObjectMethod("Vector3", "void set_y(float) property", asMETHOD(Vector3, SetY), asCALL_THISCALL);
-        engine->RegisterObjectMethod("Vector3", "float get_z() property", asMETHOD(Vector3, GetZ), asCALL_THISCALL);
-        engine->RegisterObjectMethod("Vector3", "void set_z(float) property", asMETHOD(Vector3, SetZ), asCALL_THISCALL);
-        
-        engine->RegisterObjectBehaviour("Vector3", 
-            asBEHAVE_CONSTRUCT, 
-            "void f(float, float, float)", 
-            asFUNCTIONPR([](float x, float y, float z, Vector3* self) {
-                new(self) Vector3(x, y, z);
-            },(float, float, float, Vector3*), void),
-            asCALL_CDECL_OBJLAST);
     }
 }

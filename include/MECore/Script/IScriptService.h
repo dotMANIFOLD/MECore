@@ -12,7 +12,7 @@ namespace ME {
     class IScriptService : IService {
         public:
         virtual asIScriptEngine* GetEngine() = 0;
-        virtual asIScriptModule* GetEngineModule() = 0;
-        virtual asIScriptModule* GetMainModule() = 0;
+        // virtual asIScriptModule* GetEngineModule() = 0;
+        // virtual asIScriptModule* GetMainModule() = 0;
     };
 }

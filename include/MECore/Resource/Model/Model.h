@@ -11,7 +11,7 @@
 
 namespace ME {
     /// A model can have multiple meshes, default materials, and a skeleton.
-    class Model {
+    class Model : public Resource, std::enable_shared_from_this<Model> {
         public:
         using Pointer = std::shared_ptr<Model>;
         

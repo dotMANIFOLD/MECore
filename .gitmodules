@@ -29,6 +29,3 @@
 [submodule "vendor/flatbuffers"]
 	path = vendor/flatbuffers
 	url = https://github.com/google/flatbuffers.git
-[submodule "vendor/daslang"]
-	path = vendor/daslang
-	url = https://github.com/GaijinEntertainment/daScript.git

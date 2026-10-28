@@ -17,8 +17,6 @@ namespace ME {
         public:
         DefaultLogService();
         
-        void RegisterScript(asIScriptEngine* engine);
-        
         void LogInfo(const std::string& message) override;
         void LogWarning(const std::string& message) override;
         void LogError(const std::string& message) override;

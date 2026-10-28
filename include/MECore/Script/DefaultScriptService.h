@@ -10,9 +10,6 @@ namespace ME {
         private:
         asIScriptEngine* engine;
         
-        protected:
-        void RegisterVector3();
-        
         public:
         DefaultScriptService();
         ~DefaultScriptService() override;

@@ -3,6 +3,8 @@
 //
 
 #pragma once
+
+#include <string>
 #include "MECore/Common/IDestructible.h"
 
 namespace ME {
@@ -11,6 +13,8 @@ namespace ME {
         bool destroyed = false;
         
         public:
+        std::string name;
+
         bool IsValid() const override { return !destroyed; }
         void Destroy() override { destroyed = true; }
     };
