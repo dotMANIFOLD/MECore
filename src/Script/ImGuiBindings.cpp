@@ -253,9 +253,15 @@ namespace ME {
         RegisterTree(engine);
         RegisterListBox(engine);
 
+        r = engine->RegisterGlobalFunction("void ShowDemoWindow()",
+            asFUNCTION(ImGui::ShowDemoWindow),
+            asCALL_CDECL);
+        assert(r >= 0);
+
         r = engine->RegisterGlobalFunction("void SameLine(float=0, float=-1)",
             asFUNCTION(ImGui::SameLine),
             asCALL_CDECL);
+        assert(r >= 0);
 
         r = engine->SetDefaultNamespace("");
         assert(r >= 0);
