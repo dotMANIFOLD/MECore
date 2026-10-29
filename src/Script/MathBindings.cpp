@@ -109,6 +109,30 @@ namespace ME {
         assert(r >= 0);
     }
 
+    static void RegisterMatrix(asIScriptEngine* engine) {
+        int r;
+
+        constexpr auto TYPE_NAME = "Matrix4x4";
+
+        r = engine->RegisterObjectType(TYPE_NAME, sizeof(Matrix4x4), GetPODFlags<Matrix4x4>());
+        assert(r >= 0);
+
+        r = engine->RegisterObjectMethod(TYPE_NAME, "Vector4 get_opIndex(uint idx) const property",
+            asMETHOD(Matrix4x4, GetColumn4), asCALL_THISCALL);
+        assert(r >= 0);
+        r = engine->RegisterObjectMethod(TYPE_NAME, "void set_opIndex(uint idx, Vector4) property",
+            asMETHOD(Matrix4x4, SetColumn4), asCALL_THISCALL);
+        assert(r >= 0);
+
+        r = engine->RegisterObjectMethod(TYPE_NAME, "Vector3 GetTranslation() const",
+            asMETHOD(Matrix4x4, GetTranslation), asCALL_THISCALL);
+        assert(r >= 0);
+
+        r = engine->RegisterObjectMethod(TYPE_NAME, "Quaternion GetRotation() const",
+            asMETHOD(Matrix4x4, GetQuaternion), asCALL_THISCALL);
+        assert(r >= 0);
+    }
+
     #undef REGISTER_AXIS
     
     void RegisterMath(asIScriptEngine* engine) {
@@ -117,5 +141,6 @@ namespace ME {
         RegisterVector4(engine);
         RegisterQuaternion(engine);
         RegisterTransform(engine);
+        RegisterMatrix(engine);
     }
 }

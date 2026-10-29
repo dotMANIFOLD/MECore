@@ -19,6 +19,7 @@ namespace ME {
         public:
         void* data;
         size_t size;
+        int components;
         bool isDirty;
 
         RawMeshStream(const std::string& name, const std::string& semantic, MeshStreamType type, VALUE_TYPE format) {
@@ -29,6 +30,7 @@ namespace ME {
 
             data = nullptr;
             size = 0;
+            components = 1;
             isDirty = false;
         }
         RawMeshStream(const std::string& semantic, MeshStreamType type, VALUE_TYPE format) : RawMeshStream(semantic, semantic, type, format) { }

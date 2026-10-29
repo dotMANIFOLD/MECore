@@ -26,8 +26,10 @@ namespace ME {
         BufferDesc desc;
         desc.Name = stream->GetName().c_str();
         desc.Usage = USAGE_DEFAULT;
-        desc.BindFlags = isIndex ? BIND_INDEX_BUFFER : BIND_VERTEX_BUFFER;
+        desc.BindFlags = (isIndex ? BIND_INDEX_BUFFER : BIND_VERTEX_BUFFER) | BIND_SHADER_RESOURCE;
+        desc.Mode = BUFFER_MODE_STRUCTURED;
         desc.Size = stream->GetSize();
+        desc.ElementByteStride = stream->GetStride();
         
         BufferData data;
         data.pData = stream->GetData();
