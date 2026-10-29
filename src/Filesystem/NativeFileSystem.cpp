@@ -168,7 +168,7 @@ namespace ME {
         int numEntries = 0;
         for (const auto& ext : extensions) {
             std::string pattern = (path / ("*" + ext)).generic_string();
-            int result = EnumerateNativeFiles(pattern.c_str(), true, callback);
+            int result = EnumerateNativeFiles(pattern.c_str(), false, callback);
 
             if (result < 0) return result;
 
