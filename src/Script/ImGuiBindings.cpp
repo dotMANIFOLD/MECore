@@ -2,13 +2,14 @@
 // Created by dotryen on 10/27/26.
 //
 
+#if ME_IMGUI
+
 #include <string>
 #include <imgui.h>
 
+#include "Texture.h"
 #include "MECore/Math/Types.h"
 #include "MECore/Script/Bindings.h"
-
-#if ME_IMGUI
 
 namespace ME {
     static void RegisterWindowFlags(asIScriptEngine* engine) {
@@ -237,6 +238,20 @@ namespace ME {
         assert(r >= 0);
     }
 
+    static void RegisterImage(asIScriptEngine* engine) {
+        int r;
+
+        r = engine->RegisterGlobalFunction("void Image(Texture&in texture, const Vector2&in size, const Vector2&in uv0 = Vector2(0, 0), const Vector2&in uv1 = Vector2(1, 1))",
+                asFUNCTIONPR([](Diligent::ITexture*& texture, const Vector2& size, const Vector2& uv0, const Vector2& uv1) {
+                    ImGui::Image(ImTextureRef(texture->GetDefaultView(Diligent::TEXTURE_VIEW_SHADER_RESOURCE)),
+                        ImVec2(size[0], size[1]),
+                        ImVec2(uv0[0], uv0[1]),
+                        ImVec2(uv1[0], uv1[1]));
+                }, (Diligent::ITexture*&, const Vector2&, const Vector2&, const Vector2&), void),
+                asCALL_CDECL);
+        assert(r >= 0);
+    }
+
     void RegisterImGui(asIScriptEngine* engine) {
         int r;
 
@@ -252,6 +267,7 @@ namespace ME {
         RegisterButtons(engine);
         RegisterTree(engine);
         RegisterListBox(engine);
+        RegisterImage(engine);
 
         r = engine->RegisterGlobalFunction("void ShowDemoWindow()",
             asFUNCTION(ImGui::ShowDemoWindow),
